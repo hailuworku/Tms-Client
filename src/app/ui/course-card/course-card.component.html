@@ -1,0 +1,17 @@
+<div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: white; width: 250px;">
+  
+  <!-- LOGIC: Wrap the title INSIDE the <h3> so it acts as the link -->
+  <h3 style="margin-top: 0;">
+    <a [routerLink]="['/courses', course().id]" style="color: #0056b3; text-decoration: none; cursor: pointer;">
+      {{ course().title }}
+    </a>
+  </h3>
+
+  <p>Code: {{ course().code }}</p>
+  <p>Seats: {{ course().enrollmentCount }} / {{ course().maxCapacity }}</p>
+  
+  <button (click)="enrollClicked.emit(course())" 
+          [disabled]="course().enrollmentCount >= course().maxCapacity">
+    Enroll
+  </button>
+</div>

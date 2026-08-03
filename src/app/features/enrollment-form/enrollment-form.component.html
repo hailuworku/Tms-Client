@@ -1,0 +1,53 @@
+<div style="padding: 20px; max-width: 400px;">
+  <h2>Course Enrollment</h2>
+
+  @if (submitted()) {
+    <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px;">
+      <strong>Success!</strong> Your enrollment request has been logged.
+      <br>
+      <a routerLink="/dashboard" style="display: inline-block; margin-top: 10px;">← Back to Catalog</a>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 15px;">
+      
+      <!-- Student ID -->
+      <div>
+        <label style="display: block;">Student ID (Pattern: STU-1234):</label>
+        <input formControlName="studentId" placeholder="STU-0000" style="width: 100%; padding: 8px;">
+        @if (form.get('studentId')?.touched && form.get('studentId')?.invalid) {
+          <small style="color: red;">ID must be 'STU-' followed by 4 digits.</small>
+        }
+      </div>
+
+      <div>
+        <label style="display: block;">Course ID:</label>
+        <input formControlName="courseId" placeholder="e.g., 1" style="width: 100%; padding: 8px;">
+      </div>
+
+      <h3>Backup Courses</h3>
+      
+      @for (backup of backups.controls; track $index) {
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <input [formControl]="backup" [placeholder]="'Backup course ' + ($index + 1)" style="flex: 1; padding: 8px;">
+          <button type="button" (click)="removeBackup($index)" style="background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+            Remove
+          </button>
+        </div>
+      }
+
+      <button type="button" (click)="addBackup()" style="background: #6c757d; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">
+        + Add Backup Course
+      </button>
+
+      <hr>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="form.invalid" 
+              style="padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Confirm Enrollment
+      </button>
+
+      <a routerLink="/dashboard" style="text-align: center; color: #666;">Cancel</a>
+    </form>
+  }
+</div>

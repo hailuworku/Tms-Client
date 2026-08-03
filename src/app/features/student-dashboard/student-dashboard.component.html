@@ -1,0 +1,41 @@
+<div class="welcome-section" style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h1>Welcome, {{ studentName() }}</h1>
+  <p><strong>Credits Earned:</strong> {{ earnedCredits() }}</p>
+  <p><strong>Graduation Status:</strong> {{ graduationStatus() }}</p>
+  
+  <button (click)="registerForClass()">
+    Register for a Class (+3 credits)
+  </button>
+</div>
+
+<hr>
+
+<!-- SECTION 2: Course Catalog (Logic from Exercise 6, Page 292) -->
+<h2>Course Catalog</h2>
+
+<!-- 1. Show Loading Spinner -->
+@if (coursesResource.isLoading()) {
+  <p>Fetching courses from .NET API...</p>
+} 
+
+<!-- 2. Show Error Message -->
+@else if (coursesResource.error()) {
+  <p style="color: red;">Error: Could not connect to Backend. Check CORS!</p>
+} 
+
+<!-- 3. Show the Data -->
+  <div class="grid" style="display: flex; flex-wrap: wrap; gap: 15px;">
+  @for (c of coursesResource.value(); track c.id) {
+    <!-- The attributes [course] and (enrollClicked) must be INSIDE the tag -->
+    <tms-course-card 
+      [course]="c" 
+      (enrollClicked)="handleEnroll($event)">
+    </tms-course-card>
+  }
+</div>
+
+ @if (selectedCourse(); as picked) {
+  <div style="margin-top: 20px; padding: 10px; background: #e3f2fd;">
+    <strong>Last enrollment request:</strong> {{ picked.title }} ({{ picked.code }})
+  </div>
+}
