@@ -4,12 +4,12 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet], 
   template: `
-    <h1>TMS Client</h1> <!-- This should appear now! -->
+    <h1>TMS Client</h1>
     <main>
-      <router-outlet />
+      <router-outlet></router-outlet> <!-- ራውተሩ ብቻ ዳታ እንዲያመጣ -->
     </main>
   `
 })
-export class AppComponent {} // Must be exported as 'AppComponent'
+export class AppComponent {}

@@ -1,41 +1,22 @@
-<div class="welcome-section" style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-  <h1>Welcome, {{ studentName() }}</h1>
-  <p><strong>Credits Earned:</strong> {{ earnedCredits() }}</p>
-  <p><strong>Graduation Status:</strong> {{ graduationStatus() }}</p>
-  
-  <button (click)="registerForClass()">
-    Register for a Class (+3 credits)
-  </button>
+<!-- 1. የእንኳን ደህና መጣህ ክፍል -->
+<div style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #d1e9ff;">
+  <h2>Welcome back, {{ studentName() }}</h2>
+  <p>Status: <strong>{{ graduationStatus() }}</strong> | Credits: {{ earnedCredits() }}</p>
+  <button (click)="registerForClass()">Add Credits</button>
 </div>
 
-<hr>
+<!-- 2. ሰመሪያው (Pending/Approved ቁጥሮች) -->
 
-<!-- SECTION 2: Course Catalog (Logic from Exercise 6, Page 292) -->
-<h2>Course Catalog</h2>
+<hr style="margin: 30px 0;">
 
-<!-- 1. Show Loading Spinner -->
-@if (coursesResource.isLoading()) {
-  <p>Fetching courses from .NET API...</p>
-} 
-
-<!-- 2. Show Error Message -->
-@else if (coursesResource.error()) {
-  <p style="color: red;">Error: Could not connect to Backend. Check CORS!</p>
-} 
-
-<!-- 3. Show the Data -->
-  <div class="grid" style="display: flex; flex-wrap: wrap; gap: 15px;">
-  @for (c of coursesResource.value(); track c.id) {
-    <!-- The attributes [course] and (enrollClicked) must be INSIDE the tag -->
-    <tms-course-card 
-      [course]="c" 
-      (enrollClicked)="handleEnroll($event)">
-    </tms-course-card>
+<!-- 3. የኮርስ ካርዶች -->
+<h3>Available Courses</h3>
+<div style="display: flex; gap: 15px; flex-wrap: wrap;">
+  @for (c of coursesResource.value() ?? []; track c.id) {
+    <tms-course-card [course]="c" (enrollClicked)="handleEnroll($event)" />
   }
 </div>
 
- @if (selectedCourse(); as picked) {
-  <div style="margin-top: 20px; padding: 10px; background: #e3f2fd;">
-    <strong>Last enrollment request:</strong> {{ picked.title }} ({{ picked.code }})
-  </div>
-}
+<hr style="margin: 30px 0;">
+
+<!-- 4. የተማሪዎች ዝርዝር (Approve ማድረጊያው) -->

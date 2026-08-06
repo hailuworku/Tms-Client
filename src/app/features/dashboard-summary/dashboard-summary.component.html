@@ -1,0 +1,19 @@
+<div class="summary-card" style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #fff; margin-bottom: 20px;">
+  <h3>Dashboard Summary</h3>
+
+  @if (store.isLoading()) {
+    <p>Loading stats...</p>
+  } @else {
+    <div style="display: flex; gap: 40px;">
+      <!-- Pending ቁጥር -->
+      <p>Pending: <strong style="color: red; font-size: 1.5rem;">{{ store.pendingCount() }}</strong></p>
+
+      <!-- Approved ቁጥር -->
+      <p>Approved: <strong style="color: green; font-size: 1.5rem;">{{ store.approvedCount() }}</strong></p>
+    </div>
+  }
+
+  @if (store.error()) {
+    <p style="color: red; font-size: 0.8rem;">{{ store.error() }}</p>
+  }
+</div>
